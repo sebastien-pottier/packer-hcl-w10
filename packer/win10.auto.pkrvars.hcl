@@ -12,7 +12,7 @@ os_password_workstation = "P@ssw0rd!"
 vcenter_server          = "vcenter.intranet.pottier.eu"
 vcenter_cluster         = "Cluster"
 vcenter_datacenter      = "Datacenter"
-vcenter_host            = "esx5.intranet.pottier.eu"
+vcenter_host            = "esx1.intranet.pottier.eu"
 vcenter_datastore       = "DS-nas-1"
 vcenter_folder          = "packer-templates/win"
 
