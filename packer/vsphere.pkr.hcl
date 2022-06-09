@@ -98,6 +98,7 @@ build {
     restart_timeout = "15m"
   }
 
+/* commente pendant le dev (trop long)
   provisioner "windows-update" {
     pause_before = "2m"
     timeout = "1h"
@@ -130,7 +131,8 @@ build {
       "include:$true"
     ]
   }
-  
+  */
+
   provisioner "powershell" {
     pause_before      = "2m"
     elevated_user     = var.os_username
