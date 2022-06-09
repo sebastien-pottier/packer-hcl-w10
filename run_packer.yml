@@ -6,6 +6,14 @@
   tasks:
 
   - name: Run packer init
+    ansible.builtin.command: echo $PKR_VAR_vcenter_cluster
+    register: result
+
+  - name: Display PKR_VAR_vcenter_cluster
+    ansible.builtin.debug:
+      var: result.stdout_lines
+
+  - name: Run packer init
     ansible.builtin.command: /usr/bin/packer init packer/
     register: result
     failed_when: result.rc != 0
