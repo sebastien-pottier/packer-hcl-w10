@@ -6,7 +6,8 @@
   tasks:
 
   - name: Run packer init
-    ansible.builtin.shell: echo $PKR_VAR_vcenter_cluster
+    ansible.builtin.shell:
+    cmd: echo $PKR_VAR_vcenter_cluster
     register: result
 
   - name: Display PKR_VAR_vcenter_cluster
