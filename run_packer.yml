@@ -4,12 +4,18 @@
   connection: local
   gather_facts: no
   tasks:
+
   - name: Run packer init
-    ansible.builtin.command:
-      cmd: /usr/bin/packer init packer/
+    ansible.builtin.command: /usr/bin/packer init packer/
+    register: result
+    failed_when: result.rc != 0 or "The configuration is valid." not in result.stdout
+
   - name: Run packer validate
-    ansible.builtin.command:
-      cmd: /usr/bin/packer validate packer/
+    ansible.builtin.command: /usr/bin/packer validate packer/
+    register: result
+    failed_when: result.rc != 0
+
   - name: Run packer build
-    ansible.builtin.command:
-      cmd: /usr/bin/packer build packer/
+    ansible.builtin.command: /usr/bin/packer build packer/
+    register: result
+    failed_when: result.rc != 0
