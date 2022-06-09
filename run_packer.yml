@@ -15,6 +15,10 @@
     register: result
     failed_when: result.rc != 0 or "The configuration is valid." not in result.stdout
 
+  - name: Display validation result
+      ansible.builtin.debug:
+        var: result.stdout_lines
+ 
   - name: Run packer build
     ansible.builtin.command: /usr/bin/packer build packer/
     register: result
