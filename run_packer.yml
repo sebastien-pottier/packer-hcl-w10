@@ -1,4 +1,4 @@
---
+---
 - name: Run packer
   hosts: localhost
   connection: local
