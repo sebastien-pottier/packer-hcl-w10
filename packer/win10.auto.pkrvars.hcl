@@ -9,13 +9,16 @@ vcenter_password        = "Rootroot123+"
 os_username             = "Packer"
 os_password_workstation = "P@ssw0rd!"
 
+/*
+Defined in PKR_VAR_xx variables
 vcenter_server          = "vcenter.intranet.pottier.eu"
 vcenter_cluster         = "Cluster"
 vcenter_datacenter      = "Datacenter"
 vcenter_host            = "esx1.intranet.pottier.eu"
 vcenter_datastore       = "DS-nas-1"
 vcenter_folder          = "packer-templates/win"
-
+*/
+  
 vm_name                 = "win10_pro_x64_packer_template"
 vm_network              = "VM Network"
 vm_guest_os_type        = "windows9_64Guest" # Refer to https://code.vmware.com/apis/704/vsphere/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for guest OS types.
