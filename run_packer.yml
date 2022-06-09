@@ -4,6 +4,12 @@
   connection: local
   gather_facts: no
   tasks:
-  - name: Run packer command
+  - name: Run packer init
+    ansible.builtin.command:
+      cmd: /usr/bin/packer init .
+  - name: Run packer validate
+    ansible.builtin.command:
+      cmd: /usr/bin/packer validate .
+  - name: Run packer buikd
     ansible.builtin.command:
       cmd: /usr/bin/packer build packer/
