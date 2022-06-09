@@ -6,10 +6,10 @@
   tasks:
   - name: Run packer init
     ansible.builtin.command:
-      cmd: /usr/bin/packer init .
+      cmd: /usr/bin/packer init packer/
   - name: Run packer validate
     ansible.builtin.command:
-      cmd: /usr/bin/packer validate .
-  - name: Run packer buikd
+      cmd: /usr/bin/packer validate packer/
+  - name: Run packer build
     ansible.builtin.command:
       cmd: /usr/bin/packer build packer/
