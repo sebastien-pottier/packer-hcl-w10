@@ -25,7 +25,7 @@ source "vsphere-iso" "win_10_sysprep" {
   datastore               = var.vcenter_datastore
   folder                  = var.vcenter_folder
 
-    notes                   = "Windows 10 Pro x64 VM template built using Packer.\nThis template is syspred and can be used for domain deployments."
+  notes                   = "Windows 10 Pro x64 VM template built using Packer.\nThis template is syspred and can be used for domain deployments."
 
   # Communicator configuration
   ip_wait_timeout         = "20m"
