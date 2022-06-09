@@ -5,14 +5,9 @@
   gather_facts: no
   tasks:
 
-  - name: Run packer init
-    ansible.builtin.shell:
-      cmd: echo $PKR_VAR_vcenter_cluster
-    register: result
-
   - name: Display PKR_VAR_vcenter_cluster
-    ansible.builtin.debug:
-      var: result.stdout_lines
+    debug:
+      msg: "'{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}' is the vcenter_cluster variable."
 
   - name: Run packer init
     ansible.builtin.command: /usr/bin/packer init packer/
