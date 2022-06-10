@@ -4,7 +4,7 @@
   connection: local
   gather_facts: no
   
-  environment: "{{ packer_env }}"
+  environment: '{{ packer_env }}'
   
   tasks:
   - name: Display vCenter Name
