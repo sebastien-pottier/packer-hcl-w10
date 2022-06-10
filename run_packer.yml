@@ -17,7 +17,7 @@
     ansible.builtin.command: /usr/bin/packer validate packer/
     register: command_result
     ignore_errors: True
-  - name: Display validation result
+  - name: Check validation result
     fail:
       msg: result.stdout_lines
     when: command_result.rc != 0 or "The configuration is valid." not in command_result.stdout
@@ -26,7 +26,7 @@
     ansible.builtin.command: /usr/bin/packer build packer/
     register: command_result
     ignore_errors: True
-  - name: Display build result
+  - name: Check build result
     fail:
       msg: result.stdout_lines
     when: command_result.rc != 0
