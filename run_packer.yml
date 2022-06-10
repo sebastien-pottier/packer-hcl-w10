@@ -12,16 +12,21 @@
       msg: "vCenter : '{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}'"
   - name: Run packer init
     ansible.builtin.command: /usr/bin/packer init packer/
-    register: result
-    failed_when: result.rc != 0
+
   - name: Run packer validate
     ansible.builtin.command: /usr/bin/packer validate packer/
-    register: result
-    failed_when: result.rc != 0 or "The configuration is valid." not in result.stdout
+    register: command_result
+    ignore_errors: True
   - name: Display validation result
-    ansible.builtin.debug:
-      var: result.stdout_lines
+    fail:
+      msg: result.stdout_lines
+    when: command_result.rc != 0 or "The configuration is valid." not in command_result.stdout
+
   - name: Run packer build
     ansible.builtin.command: /usr/bin/packer build packer/
-    register: result
-    failed_when: result.rc != 0
+    register: command_result
+    ignore_errors: True
+  - name: Display build result
+    fail:
+      msg: result.stdout_lines
+    when: command_result.rc != 0
