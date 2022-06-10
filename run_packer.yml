@@ -3,30 +3,25 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  
+  environment: "{{ packer_env }}"
+  
   tasks:
-
-  - name: Display PKR_VAR_vcenter_cluster
+  - name: Display vCenter Name
     debug:
-      msg: "'{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}' is the vcenter_cluster variable."
-
+      msg: "vCenter : '{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}'"
   - name: Run packer init
-    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer init packer/
     register: result
     failed_when: result.rc != 0
-
   - name: Run packer validate
-    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer validate packer/
     register: result
     failed_when: result.rc != 0 or "The configuration is valid." not in result.stdout
-
   - name: Display validation result
     ansible.builtin.debug:
       var: result.stdout_lines
- 
   - name: Run packer build
-    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer build packer/
     register: result
     failed_when: result.rc != 0
