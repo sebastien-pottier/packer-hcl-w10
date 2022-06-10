@@ -18,6 +18,7 @@
   - name: Display vCenter Name
     debug:
       msg: "vCenter : '{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}'"
+
   - name: Run packer init
     ansible.builtin.command: /usr/bin/packer init packer/
 
