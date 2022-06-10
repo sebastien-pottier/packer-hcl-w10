@@ -10,11 +10,13 @@
       msg: "'{{ lookup('env', 'PKR_VAR_vcenter_cluster') }}' is the vcenter_cluster variable."
 
   - name: Run packer init
+    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer init packer/
     register: result
     failed_when: result.rc != 0
 
   - name: Run packer validate
+    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer validate packer/
     register: result
     failed_when: result.rc != 0 or "The configuration is valid." not in result.stdout
@@ -24,6 +26,7 @@
       var: result.stdout_lines
  
   - name: Run packer build
+    environment: "{{ packer_env }}"
     ansible.builtin.command: /usr/bin/packer build packer/
     register: result
     failed_when: result.rc != 0
