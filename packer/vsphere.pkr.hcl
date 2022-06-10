@@ -1,9 +1,9 @@
 packer {
-  required_version = ">= 1.7.4"
+  required_version = ">= 1.8.1"
 
   required_plugins {
     windows-update = {
-      version = "0.14.0"
+      version = "0.14.1"
       source = "github.com/rgl/windows-update"
       # Github Plugin Repo https://github.com/rgl/packer-plugin-windows-update
     }
@@ -38,7 +38,7 @@ source "vsphere-iso" "win_10_sysprep" {
   winrm_password          = var.os_password_workstation
 
   # Hardware Configuration
-  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM", timestamp())}"
+  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD", timestamp())}"
   vm_version              = var.vm_version
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
@@ -98,7 +98,6 @@ build {
     restart_timeout = "15m"
   }
 
-/* commente pendant le dev (trop long)
   provisioner "windows-update" {
     pause_before = "2m"
     timeout = "1h"
@@ -131,7 +130,6 @@ build {
       "include:$true"
     ]
   }
-  */
 
   provisioner "powershell" {
     pause_before      = "2m"
