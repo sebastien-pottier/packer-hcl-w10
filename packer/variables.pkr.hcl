@@ -2,7 +2,6 @@
  * Packer documentation for variables and so on: https://www.packer.io/docs/builders/vsphere/vsphere-iso
  */ 
 
-
 variable "vcenter_username" {
     description = "vCenter username."
     type    = string
