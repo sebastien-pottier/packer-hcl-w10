@@ -42,9 +42,9 @@ source "vsphere-iso" "win_10_sysprep" {
   vm_version              = var.vm_version
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
-  CPUs                    = var.cpu_num
+  CPUs                    = var.vm_cpu_num
   CPU_hot_plug            = true
-  RAM                     = var.ram
+  RAM                     = var.vm_ram
   RAM_reserve_all         = false
   RAM_hot_plug            = true
   video_ram               = "16384"
@@ -53,12 +53,12 @@ source "vsphere-iso" "win_10_sysprep" {
     
   network_adapters {
     network               = var.vm_network
-    network_card          = var.network_card
+    network_card          = var.vm_network_card
   }
   
    storage {
     disk_thin_provisioned = true
-    disk_size             = var.disk_size
+    disk_size             = var.vm_disk_size
   }
 
   # ISO Configuration
