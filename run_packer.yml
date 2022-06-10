@@ -9,10 +9,10 @@
  # - username = $VMWARE_USER
  # - password = $VMWARE_PASSWORD
   environment:
-    '{{ packer_env }}'
-    PKR_VAR_vcenter_server: '{{ lookup("env", "VMWARE_HOST") }}'
-    PKR_VAR_vcenter_username: '{{ lookup("env", "VMWARE_USER") }}'
-    PKR_VAR_vcenter_password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
+    - '{{ packer_env }}'
+    - PKR_VAR_vcenter_server: '{{ lookup("env", "VMWARE_HOST") }}'
+    - PKR_VAR_vcenter_username: '{{ lookup("env", "VMWARE_USER") }}'
+    - PKR_VAR_vcenter_password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
   
   tasks:
   - name: Display vCenter Name
