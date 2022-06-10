@@ -61,7 +61,7 @@ variable "vm_guest_os_type" {
     description = "Defaults to guest os type of otherGuest."
     type = string
 }
-variable "network_card" {
+variable "vm_network_card" {
     default = "vmxnet3"
 }
 variable "vm_firmware"{
@@ -69,17 +69,17 @@ variable "vm_firmware"{
     type = string
     default = "efi"
 }
-variable "cpu_num" {
+variable "vm_cpu_num" {
     description = "Number of CPU cores."
     type = number
     default = 2
 }
-variable "ram" {
+variable "vm_ram" {
     description = "Amount of RAM in MB."
     type = number
     default = 4096
 }
-variable "disk_size" {
+variable "vm_disk_size" {
     description = "The size of the disk in MB."
     type = number
     default = 40960
