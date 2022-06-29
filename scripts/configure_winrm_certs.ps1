@@ -52,7 +52,7 @@ $pubKeyFilePath = "$output_path\pubkey.txt"
 $null = Import-Certificate -FilePath $pubKeyFilePath -CertStoreLocation 'Cert:\LocalMachine\Root'
 $null = Import-Certificate -FilePath $pubKeyFilePath -CertStoreLocation 'Cert:\LocalMachine\TrustedPeople'
 
-$ansibleCert = Get-ChildItem -Path 'Cert:\LocalMachine\Root' | ? {$_.Subject -eq 'CN=ansibletestuser'}
+$ansibleCert = Get-ChildItem -Path 'Cert:\LocalMachine\Root' | ? {$_.Subject -eq 'CN=ansible'}
 
 #endregion
 
