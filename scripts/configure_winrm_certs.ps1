@@ -19,20 +19,21 @@ if (-not (Test-Path $output_path)) {
     Write-Host "Folder $output_path Created."
 }
 
-$testUserAccountName = 'ansible'
-$testUserAccountPassword = (ConvertTo-SecureString -String 'P@ssw0rd!' -AsPlainText -Force)
-if (-not (Get-LocalUser -Name $testUserAccountName -ErrorAction Ignore)) {
+$userAccountName = 'ansible'
+$userAccountPassword = (ConvertTo-SecureString -String 'P@ssw0rd!' -AsPlainText -Force)
+if (-not (Get-LocalUser -Name $userAccountName -ErrorAction Ignore)) {
     $newUserParams = @{
-        Name                 = $testUserAccountName
+        Name                 = $userAccountName
         AccountNeverExpires  = $true
         PasswordNeverExpires = $true
-        Password             = $testUserAccountPassword
+        Password             = $userAccountPassword
     }
     $null = New-LocalUser @newUserParams
 }
 
 ## This is the public key generated from the Ansible server using:
-<# 
+<#
+USERNAME=ansible
 cat > openssl.conf << EOL
 distinguished_name = req_distinguished_name
 [req_distinguished_name]
@@ -45,7 +46,7 @@ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out cert.pem -outform PEM 
 rm openssl.conf 
 #>
 
-$pubKeyFilePath = "$output_path\pubkey.txt" 
+$pubKeyFilePath = "$output_path\pubkey.txt"
 
 ## Import the public key into Trusted Root Certification Authorities and Trusted People
 $null = Import-Certificate -FilePath $pubKeyFilePath -CertStoreLocation 'Cert:\LocalMachine\Root'
@@ -75,10 +76,10 @@ if ((-not $httpsListeners) -or -not (@($httpsListeners).where( { $_.CertificateT
 #endregion
 
 #region Map the client cert
-$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $testUserAccountName, $testUserAccountPassword
+$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $userAccountName, $userAccountPassword
 
 New-Item -Path WSMan:\localhost\ClientCertificate `
-    -Subject "$testUserAccountName@localhost" `
+    -Subject "$userAccountName@localhost" `
     -URI * `
     -Issuer $ansibleCert.Thumbprint `
     -Credential $credential `
@@ -115,4 +116,4 @@ $null = New-ItemProperty @newItemParams
  #endregion
 
 ## Add the local user to the administrators group. If this step isn't doing, Ansible sees an "AccessDenied" error
-Get-LocalUser -Name $testUserAccountName | Add-LocalGroupMember -Group 'Administrators'
+Get-LocalUser -Name $userAccountName | Add-LocalGroupMember -Group 'Administrators'
