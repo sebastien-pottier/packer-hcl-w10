@@ -10,6 +10,10 @@ $ErrorActionPreference = "Stop"
 try{
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
 
+    # Set network profile to PRIVATE. Required since the WinRM config 
+    # below will error out if a network profile is set to PUBLIC. 
+    Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
+
     # Remove HTTP listener
     Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
 
