@@ -6,7 +6,7 @@ Example of default value of var cpu_name is 2 cores. We override that with 4 cor
 vcenter_username        = "administrator@vsphere.local"
 vcenter_password        = "Rootroot123+"
 
-os_username             = "Packer"
+os_username             = "ansible"
 os_password_workstation = "P@ssw0rd!"
 
 /*
@@ -24,7 +24,7 @@ vm_guest_os_type        = "windows9_64Guest" # Refer to https://code.vmware.com/
 vm_version              = "19" # Refer to https://kb.vmware.com/s/article/1003746 for specific VM versions.
 
 os_iso_path             = "[DS-ISO] windows_10_x64_21H2.iso"
-vmtools_iso_path        = "[DS-ISO] windows_vmware_tools_v12.0.0-19345655.iso"
+vmtools_iso_path        = "[DS-ISO] VMware-Tools-windows-12.0.5-19716617.iso"
 
 vm_cpu_num              = 2
 vm_ram                  = 8192
