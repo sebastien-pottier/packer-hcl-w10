@@ -15,7 +15,7 @@ if (! (Test-Path $FolderName)) {
 Start-Transcript C:\Temp\configure_winrm.txt
 
 try{
-    Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
+    # Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
 
     # Set network profile to PRIVATE. Required since the WinRM config 
     # below will error out if a network profile is set to PUBLIC. 
