@@ -1,35 +1,44 @@
+# A Packer config that works with this configuration would be:
+#    "winrm_insecure": true,
+#    "winrm_use_ssl": true
+
 $ErrorActionPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
 #Start-Transcript C:\configure_winrm.txt
 
 try{
-    # Set network profile to PRIVATE. Required since the WinRM config 
-    # below will error out if a network profile is set to PUBLIC. 
-    Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
-    
-    # Enable and allow WinRM traffic through Windows Firewall 
-    netsh advfirewall firewall set rule group="Windows Remote Management" new enable=yes
-    netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new enable=yes action=allow
+    Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
 
-    # Configure WinRM (Do not modify syntax as it breaks WinRM)
-    winrm quickconfig -q
-    winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-    winrm set winrm/config/service/auth '@{Basic="true"}'
-    winrm set winrm/config/client/auth '@{Basic="true"}'
-    winrm set winrm/config '@{MaxTimeoutms="7200000"}'
-    winrm set winrm/config/winrs '@{IdleTimeout="7200000"}'
-    winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="2048"}'
-    winrm set winrm/config/service '@{MaxConcurrentOperationsPerUser="12000"}'
+    # Remove HTTP listener
+    Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
 
-    # Making double sure WinRM service is set to auto.
-    Stop-Service WinRM
-    Set-Service -Name WinRM -StartupType Automatic
-    Start-Service WinRM
-    
-    # Disable Windows firewall as I am running into an issue where 
-    # the network profile gets reset to PUBLIC after a reboot.
-    netsh advfirewall set allprofiles state off
+    # Create a self-signed certificate to let ssl work
+    $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName "packer"
+    New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
+
+    # WinRM
+    write-output "Setting up WinRM"
+    write-host "(host) setting up WinRM"
+
+    # Configure WinRM to allow unencrypted communication, and provide the
+    # self-signed cert to the WinRM listener.
+    cmd.exe /c winrm quickconfig -q
+    cmd.exe /c winrm set "winrm/config/service" '@{AllowUnencrypted="true"}'
+    cmd.exe /c winrm set "winrm/config/client" '@{AllowUnencrypted="true"}'
+    cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
+    cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
+    cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
+    cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"packer`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
+
+    # Make sure appropriate firewall port openings exist
+    cmd.exe /c netsh advfirewall firewall set rule group="Gestion à distance de Windows" new enable=yes
+    cmd.exe /c netsh advfirewall firewall add rule name= "Port 5986" dir=in action=allow protocol=TCP localport=5986
+
+    # Restart WinRM, and set it so that it auto-launches on startup.
+    cmd.exe /c net stop winrm
+    cmd.exe /c sc config winrm start= auto
+    cmd.exe /c net start winrm
 } 
 catch {
     Write-Host
