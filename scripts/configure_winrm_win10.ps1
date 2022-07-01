@@ -6,7 +6,13 @@
 $ErrorActionPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-#Start-Transcript C:\configure_winrm.txt
+$FolderName = "C:\Temp"
+if (! (Test-Path $FolderName)) {
+    New-Item $FolderName -ItemType Directory
+    Write-Host "Folder $FolderName Created."
+}
+
+Start-Transcript C:\Temp\configure_winrm.txt
 
 try{
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
