@@ -19,7 +19,8 @@ try{
     Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
 
     # Create a self-signed certificate to let ssl work
-    $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName $env:COMPUTERNAME
+    $Hostname = $env:COMPUTERNAME
+    $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName $Hostname
     New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
 
     # WinRM
@@ -34,7 +35,7 @@ try{
     cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
     cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
     cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
-    cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"$env:COMPUTERNAME`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
+    cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"$Hostname`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
 
     # Make sure appropriate firewall port openings exist
     cmd.exe /c netsh advfirewall firewall set rule group="Gestion à distance de Windows" new enable=yes
