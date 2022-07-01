@@ -125,9 +125,9 @@
                             <PlainText>false</PlainText>
                         </Password>
                         <Description>Local administrator account.</Description>
-                        <DisplayName>Packer</DisplayName>
+                        <DisplayName>ansible</DisplayName>
                         <Group>Administrators</Group>
-                        <Name>Packer</Name>
+                        <Name>ansible</Name>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
@@ -137,7 +137,7 @@
                     <PlainText>false</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
-                <Username>Packer</Username>
+                <Username>ansible</Username>
             </AutoLogon>
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
@@ -169,7 +169,7 @@
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>Powershell -ExecutionPolicy Bypass -File a:\scripts\configure_winrm_win10.ps1</CommandLine>
-                    <Description>Configure WinRM connectivity. Required for Packer connectivity.</Description>
+                    <Description>Configure WinRM connectivity. Required for Packer and ansible connectivity.</Description>
                     <Order>5</Order>
                 </SynchronousCommand>
             </FirstLogonCommands>
