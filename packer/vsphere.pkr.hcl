@@ -31,7 +31,10 @@ source "vsphere-iso" "win_10_sysprep" {
   ip_wait_timeout         = "20m"
   ip_settle_timeout       = "1m"
   communicator            = "winrm"
-  #winrm_port             = "5985"
+  winrm_port              = "5986"
+  winrm_use_ssl           = true
+  winrm_insecure          = true
+  winrm_use_ntlm          = false
   winrm_timeout           = "10m"
   pause_before_connecting = "5m"
   winrm_username          = var.os_username
