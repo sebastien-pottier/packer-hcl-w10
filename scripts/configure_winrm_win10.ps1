@@ -33,7 +33,7 @@ try{
     cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
     cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
     cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
-    cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"ansible`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
+    cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"$env:COMPUTERNAME`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
 
     # Make sure appropriate firewall port openings exist
     cmd.exe /c netsh advfirewall firewall set rule group="Gestion à distance de Windows" new enable=yes
