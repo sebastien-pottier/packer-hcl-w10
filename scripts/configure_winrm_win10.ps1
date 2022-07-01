@@ -18,7 +18,7 @@ try{
     Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
 
     # Create a self-signed certificate to let ssl work
-    $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName "packer"
+    $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName "ansible"
     New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
 
     # WinRM
