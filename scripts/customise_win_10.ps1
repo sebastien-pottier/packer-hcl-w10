@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 try {
     # Disable password expiration for your local admin account.
     Write-Host "Setting admin account to not expire..."
-    wmic useraccount where "name='Packer'" set PasswordExpires=FALSE
+    wmic useraccount where "name='ansible'" set PasswordExpires=FALSE
 
     # Set power plan to High Performance.
     Write-Host "Setting power plan to high performance..."
