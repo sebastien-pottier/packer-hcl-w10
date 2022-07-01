@@ -1,6 +1,7 @@
-# A Packer config that works with this configuration would be:
-#    "winrm_insecure": true,
-#    "winrm_use_ssl": true
+# configure_winrm_win10.ps1
+# Version 1.0.0.0
+# Sebastien Pottier 01 Juillet 2022
+# Based on Hashicorp documentation : https://www.packer.io/docs/communicators/winrm
 
 $ErrorActionPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
